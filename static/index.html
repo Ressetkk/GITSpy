@@ -1,10 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>GITSpy</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.2/axios.js"></script>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <div class="container-sm">
+            <h1>GITSpy</h1>
+            <form id="searchForm" v-on:submit.prevent="processForm">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">@</span>
+                    </div>
+                    <input v-model="username" name="username" type="text" id="usernameField" class="form-control input" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="submit" value="Search"  class="btn btn-primary" />
+                </div>
+            </form>
+            <div id="output">
+                <div class="border rounded-lg">
+                        <img class="rounded-circle" width=100px v-bind:src="avatar_url" />
+                        <p style="font-size: 30px;">{{ username }}</p>
+                        <p>{{ email }}</p>
+                        <p class="font-weight-light text-muted">{{ public_repos }}</p>
+                </div>
+                <div class="progress">
+                        <div v-for="(value, key) in repo_stats" class="progress-bar" role="progressbar" v-bind:style="width: calc(value * 100 / 8)%" v-bind:aria-valuenow="value" aria-valuemin="0" v-bind:aria-valuemax="8"></div>
+                </div>
+            </div>
+        </div>
+        <script src="app.js"></script>
     </body>
 </html>
