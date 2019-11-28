@@ -27,7 +27,7 @@
                         <p class="font-weight-light text-muted">{{ public_repos }}</p>
                 </div>
                 <div class="progress">
-                        <div v-for="(value, key) in repo_stats" class="progress-bar" role="progressbar" v-bind:style="width: calc(value * 100 / 8)%" v-bind:aria-valuenow="value" aria-valuemin="0" v-bind:aria-valuemax="8"></div>
+                        <div v-for="(value, key) in repo_stats" class="progress-bar" role="progressbar" v-bind:style="width: calc(value * 100 / 8)%" v-bind:aria-valuenow="value" aria-valuemin="0" v-bind:aria-valuemax="8">{{ key }} - {{ value }}</div>
                 </div>
             </div>
         </div>
