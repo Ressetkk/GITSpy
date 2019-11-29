@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="container-sm">
-            <h1>GITSpy</h1>
+            <h1 style="margin-bottom: 2rem;">GITSpy</h1>
             <form id="searchForm" v-on:submit.prevent="processForm">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -28,7 +28,7 @@
                             <p class="font-weight-light text-muted">{{ public_repos }}</p>
                     </div>
                 </div>
-                <div id="repoStats" v-if="seen">
+                <div id="repoStats" v-if="seen" style="margin-bottom: 2.5rem;">
                     <h4>Language stats</h4>
                     <div class="progress">
                         <div v-for="stat in repos_stats" class="progress-bar" role="progressbar" v-bind:style="stat.style" v-bind:aria-valuenow="stat.count" aria-valuemin="0" v-bind:aria-valuemax="8">{{ stat.language }} - {{ stat.count }}</div>
@@ -36,19 +36,23 @@
                     <h4>Repositories</h4>
                     <ul class="list-group">
                         <li v-for="repo in repos_list" class="list-group-item">
-                            <a v-bind:href="repo.html_url">{{ repo.name }}</a><br>
+                            <a v-bind:href="repo.html_url" class="font-weight-bold">{{ repo.name }}</a><br>
                             <label style="font-size: 14px;" class="font-weight-light">{{ repo.description }}</label><br>
                             <label style="font-size: 12px;" class="font-weight-light text-muted">{{ repo.language }}</label>
                         </li>
                     </ul>
                 </div>
                 <div id="activity" v-if="seen">
-                    <h4>User Commit Activity</h4>
+                    <h4>User Push Activity</h4>
                     <ul class="list-group">
-                        <div v-for="item in items">
-                            <label>Commits at {{ item.created_at }}</label>
+                        <div v-for="item in items" style="margin-bottom: 1rem;">
+                            <label>Commits at {{ new Date(item.created_at).toLocaleString() }}</label>
                             <ul v-for="commit in item.commits" class="list-group">
-                                <li class="list-group-item"><label>{{ commit.message }}</label></li>
+                                <li class="list-group-item">
+                                    <a v-bind:href="item.repo.url">{{ item.repo.name }}</a><br>
+                                    <label>{{ commit.message }}</label><br>
+                                    <a style="font-size: 10px;" class="font-weight-light text-muted" v-bind:href="commit.url">{{ commit.sha }}</a>
+                                </li>
                             </ul>
                         </div>
                     </ul>

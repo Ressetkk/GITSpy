@@ -1,0 +1,28 @@
+version: '3'
+services:
+  proxy:
+    image: traefik:latest
+    ports:
+      - 80:80
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    volumes: 
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  frontend:
+    build: ./frontend/
+    ports:
+      - 80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitspy-frontend.rule=PathPrefix(`/`)"
+
+  backend:
+    build: ./backend/
+    ports:
+      - 80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitspy-backend.rule=PathPrefix(`/api`)"

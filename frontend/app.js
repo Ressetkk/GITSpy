@@ -1,3 +1,17 @@
+// const githubColors = (() => {
+//     var data = {};
+    
+//     return(data);
+// })();
+var githubColors = {};
+axios.get('https://raw.githubusercontent.com/ozh/github-colors/master/colors.json')
+.then(response => {
+    githubColors = response.data;
+})
+.catch(error => {
+    console.error(error);
+})
+
 var app = new Vue({
     el: '#user',
     data: {
@@ -64,7 +78,15 @@ function styleStats(stats, allElements) {
                 language: elem.language,
                 count: elem.count,
                 style: {
-                    width: (elem.count / allElements) * 100 + "%"
+                    width: (elem.count / allElements) * 100 + "%",
+                    'background-color': (function() {
+                        try {
+                            return (githubColors[elem.language].color)
+                        }
+                        catch (e) {
+                            return '#333'
+                        }
+                    })()
                 }
             });
         })
