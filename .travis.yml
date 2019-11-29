@@ -5,10 +5,12 @@ services:
 
 before_install:
   - docker --version
+  - export VERSION=$(cat VERSION)
 
 script:
-  - docker build --build-arg VERSION=$(cat VERSION) -t ressetkk/gitspy-backend:$(cat VERSION) -t ressetkk/gitspy-backend:latest ./backend/
+  - docker build --build-arg VERSION=$VERSION -t ressetkk/gitspy-backend:$VERSION -t ressetkk/gitspy-backend:latest ./backend/
+  - docker build --build-arg VERSION=$VERSION -t ressetkk/gitspy-frontend:$VERSION -t ressetkk/gitspy-frontend:latest ./frontend/
 
-before_deploy:
+after_script:
   - docker login --username $user --password $token
   - docker push ressetkk/gitspy-backend
