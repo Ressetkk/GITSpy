@@ -12,10 +12,6 @@ RUN apk --no-cache add libc-dev nginx \
 
 COPY . /app
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY static/* /var/www/html/
-RUN mv entrypoint.sh / && chmod +x /entrypoint.sh \
-    && rm -rf static nginx.conf
-# CMD ["gunicorn", "-b 0.0.0.0:80", "wsgi:app"]
-# CMD ["uwsgi", "--http", "0.0.0.0:5000","--module", "app"]
-# CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+RUN mv entrypoint.sh / && chmod +x /entrypoint.sh
+
 CMD ["/entrypoint.sh"]
