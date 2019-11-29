@@ -12,5 +12,6 @@ script:
   - docker build --build-arg VERSION=$VERSION -t ressetkk/gitspy-frontend:$VERSION -t ressetkk/gitspy-frontend:latest ./frontend/
 
 after_script:
-  - docker login --username $user --password $token
+  - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_TOKEN
   - docker push ressetkk/gitspy-backend
+  - docker push ressetkk/gitspy-frontend
