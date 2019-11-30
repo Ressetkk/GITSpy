@@ -13,7 +13,7 @@ Backend is a simple API server that returns scraped information in JSON format.
 Frontend shows those information in a user-friendly format.
 
 ## Personal Access Token
-GitHub restricts API calls per hour and e-mail visibility for non-authenticated users. In order to get more information you need to provide your generated Personal Access Token from [GitHub Settings](https://github.com/settings/tokens).
+GitHub restricts API calls per hour and e-mail visibility for non-authenticated users. In order to get more information you need to provide your generated Personal Access Token from [GitHub Settings](https://github.com/settings/tokens). If you do not provide the token the app will work as not authenticated.
 
 ## Deployment
 

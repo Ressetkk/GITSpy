@@ -29,7 +29,7 @@ def getUser():
 def getUserRepos():
     username = request.args.get("username", None)
     if username:
-        response = _executeRequest("{}/users/{}/repos".format(GITHUB_API_URL, username),request).json()
+        response = _executeRequest("{}/users/{}/repos".format(GITHUB_API_URL, username), request).json()
         reposInfo = {
             'repos_list': list(map(lambda x: ({
                                     'html_url': x['html_url'],
@@ -83,8 +83,11 @@ def getHostInfo():
 
 def _executeRequest(url, request):
     try:
-        response = requests.get(url=url, headers={ 'Authorization': 'token ' + request.headers['token']})
-    except KeyError:
+        token = request.headers['token']
+        if token == '':
+            raise ValueError
+        response = requests.get(url=url, headers={ 'Authorization': 'token ' + token})
+    except (KeyError, ValueError):
         response = requests.get(url=url)
     _checkResponseStatus(response)
     return(response)
