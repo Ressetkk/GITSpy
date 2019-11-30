@@ -22,10 +22,13 @@ var app = new Vue({
         public_repos: null,
     },
     methods: {
-        executeRequest: function(username) {
+        executeRequest: function(username, token) {
             axios.get('/api/getuser', {
                 params: {
                     username: username
+                },
+                headers: {
+                    token: token
                 }
             })
             .then(response => {
@@ -52,10 +55,13 @@ var stats = new Vue({
         repos_stats: {},
     },
     methods: {
-        executeRequest: function(username) {
+        executeRequest: function(username, token) {
             axios.get('/api/getuser/repos', {
                 params: {
                     username: username
+                },
+                headers: {
+                    token: token
                 }
             })
             .then(response => {
@@ -104,10 +110,13 @@ var activity = new Vue({
         }
     },
     methods: {
-        executeRequest: function(username) {
+        executeRequest: function(username, token) {
             axios.get('/api/getuser/activity', {
                 params: {
                     username: username
+                },
+                headers: {
+                    token: token
                 }
             })
             .then(response => {
@@ -125,12 +134,13 @@ var form = new Vue({
     el: '#searchForm',
     data: {
         username: '',
+        token: ''
     },
     methods: {
         processForm: function() {
-            app.executeRequest(this.username)
-            stats.executeRequest(this.username)
-            activity.executeRequest(this.username)
+            app.executeRequest(this.username, this.token)
+            stats.executeRequest(this.username,this.token)
+            activity.executeRequest(this.username, this.token)
         }
     }
 });

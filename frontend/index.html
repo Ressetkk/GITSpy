@@ -8,35 +8,53 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.2/axios.js"></script>
     </head>
     <body>
-        <div class="container-sm">
-            <h1 style="margin-bottom: 2rem;">GITSpy</h1>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <h1 style="margin-bottom: 2rem;">GITSpy</h1>
+            </div>
             <form id="searchForm" v-on:submit.prevent="processForm">
+                <div class="input-group input-group-sm mb-1 col col-lg-4">
+                    <input type="password" v-model="token" name="token" class="form-control" placeholder="GitHub Token" />
+                </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">@</span>
                     </div>
-                    <input v-model="username" name="username" type="text" id="usernameField" class="form-control input" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                    <input type="submit" value="Search"  class="btn btn-primary" />
+                    <input v-model="username" name="username" type="text" id="usernameField" class="form-control input" placeholder="Type username..." aria-label="Username" aria-describedby="basic-addon1">
+                    <div class="input-group-append">
+                        <input type="submit" value="Search"  class="btn btn-primary" />
+                    </div>
                 </div>
             </form>
             <div>
-                <div id="user" v-if="seen">
-                    <div class="border rounded-lg">
-                            <img class="rounded-circle" width=100px v-bind:src="avatar_url" />
-                            <p style="font-size: 30px;">{{ username }}</p>
-                            <p>{{ email }}</p>
-                            <p class="font-weight-light text-muted">{{ public_repos }}</p>
+                <div id="user" v-if="seen" style="margin-bottom: 2.5rem;">
+                    <div class="border rounded-lg container">
+                        <div class="row">
+                            <div class="col col-auto">
+                                <img class="rounded-circle float-left" width=100px v-bind:src="avatar_url" />
+                            </div>
+                            <div class="col">
+                                <label style="font-size: 30px;">{{ username }}</label><br>
+                                <label>{{ email }}</label><br>
+                                <label class="font-weight-light text-muted">{{ public_repos }}</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="repoStats" v-if="seen" style="margin-bottom: 2.5rem;">
-                    <h4>Language stats</h4>
+                    <h4 class="md-1">Language stats</h4>
                     <div class="progress">
-                        <div v-for="stat in repos_stats" class="progress-bar" role="progressbar" v-bind:style="stat.style" v-bind:aria-valuenow="stat.count" aria-valuemin="0" v-bind:aria-valuemax="8">{{ stat.language }} - {{ stat.count }}</div>
+                        <div v-for="stat in repos_stats" class="progress-bar" role="progressbar" v-bind:style="stat.style" v-bind:aria-valuenow="stat.count" aria-valuemin="0" v-bind:aria-valuemax="8">{{ stat.language }}</div>
                     </div>
-                    <h4>Repositories</h4>
+                    <div class="row text-center">
+                        <div v-for="stat in repos_stats" class="col" style="font-size: 12px;" >
+                            <label>{{ stat.language }} - {{ stat.count }}</label>
+                        </div>
+                    </div>
+                    <h4 class="md-2">Repositories</h4>
                     <ul class="list-group">
                         <li v-for="repo in repos_list" class="list-group-item">
-                            <a v-bind:href="repo.html_url" class="font-weight-bold">{{ repo.name }}</a><br>
+                            <a v-bind:href="repo.html_url">{{ repo.name }}</a><br>
                             <label style="font-size: 14px;" class="font-weight-light">{{ repo.description }}</label><br>
                             <label style="font-size: 12px;" class="font-weight-light text-muted">{{ repo.language }}</label>
                         </li>
@@ -50,8 +68,8 @@
                             <ul v-for="commit in item.commits" class="list-group">
                                 <li class="list-group-item">
                                     <a v-bind:href="item.repo.url">{{ item.repo.name }}</a><br>
-                                    <label>{{ commit.message }}</label><br>
-                                    <a style="font-size: 10px;" class="font-weight-light text-muted" v-bind:href="commit.url">{{ commit.sha }}</a>
+                                    <label style="font-size: 14px;">{{ commit.message }}</label><br>
+                                    <a style="font-size: 12px;" class="font-weight-light text-muted" v-bind:href="commit.url">{{ commit.sha }}</a>
                                 </li>
                             </ul>
                         </div>

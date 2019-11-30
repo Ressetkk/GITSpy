@@ -14,7 +14,7 @@ def getUser():
     """
     username = request.args.get("username", None)
     if username:
-        response = _executeRequest("{}/users/{}".format(GITHUB_API_URL, username)).json()
+        response = _executeRequest("{}/users/{}".format(GITHUB_API_URL, username), request.headers['token']).json()
         userInfo = {
             'email': response['email'],
             'username': response['login'],
@@ -29,7 +29,7 @@ def getUser():
 def getUserRepos():
     username = request.args.get("username", None)
     if username:
-        response = _executeRequest("{}/users/{}/repos".format(GITHUB_API_URL, username)).json()
+        response = _executeRequest("{}/users/{}/repos".format(GITHUB_API_URL, username),request.headers['token']).json()
         reposInfo = {
             'repos_list': list(map(lambda x: ({
                                     'html_url': x['html_url'],
@@ -51,7 +51,7 @@ def login():
 @app.route("/api/getuser/activity/")
 def getUserActivity():
     username = request.args.get("username", None)
-    response = _executeRequest("{}/users/{}/events/public".format(GITHUB_API_URL, username)).json()
+    response = _executeRequest("{}/users/{}/events/public".format(GITHUB_API_URL, username), request.headers['token']).json()
     pushEvents = list(event for event in response if event['type'] == 'PushEvent')
     return (
         {            
@@ -75,13 +75,18 @@ def getUserActivity():
 @app.route("/api/debug/")
 def getHostInfo():
     from socket import gethostname
+    from os import getenv 
     info = {
-        'hostname': gethostname()
+        'hostname': gethostname(),
+        'app_version': getenv('VERSION')
     }
     return(info)
 
-def _executeRequest(url):
-    response = requests.get(url=url)
+def _executeRequest(url, token):
+    if token:
+        response = requests.get(url=url, headers={ 'Authorization': 'token ' + token})
+    else:
+        response = requests.get(url=url)
     _checkResponseStatus(response)
     return(response)
 

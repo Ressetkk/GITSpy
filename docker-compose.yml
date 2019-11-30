@@ -12,7 +12,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   frontend:
-    build: ./frontend/
+    image: ressetkk/gitspy-frontend:latest
     ports:
       - 80
     labels:
@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.gitspy-frontend.rule=PathPrefix(`/`)"
 
   backend:
-    build: ./backend/
+    image: ressetkk/gitspy-backend:latest
     ports:
       - 80
     labels:
