@@ -69,7 +69,7 @@ def getUserActivity():
     )
 @app.route("/")
 def init():
-    return {'success': True}
+    return({'success': True})
     
 @app.route("/api/debug/")
 def getHostInfo():
