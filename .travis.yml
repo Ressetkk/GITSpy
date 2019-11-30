@@ -29,5 +29,9 @@ after_success:
 - docker push $GCR_URL/$GCLOUD_PROJECT_ID/gitspy-frontend
 - gcloud container clusters get-credentials $GKE_NAME --zone=europe-west1-b --project
   $GCLOUD_PROJECT_ID
-- kubectl apply -f backend-deployment.yml
-- kubectl apply -f frontend-deployment.yml
+- kubectl set image deployment/gitspy-backend-deployment backend=$GCR_URL/$GCLOUD_PROJECT_ID/gitspy-backend:$VERSION
+- kubectl set image deployment/gitspy-frontend-deployment frontend=$GCR_URL/$GCLOUD_PROJECT_ID/gitspy-frontend:$VERSION
+
+after_script:
+- kubectl rollout status deployment/gitspy-backend-deployment
+- kubectl rollout status deployment/gitspy-frontend-deployment
