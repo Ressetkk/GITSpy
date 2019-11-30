@@ -30,4 +30,4 @@ after_success:
 - gcloud container clusters get-credentials $GKE_NAME --zone=europe-west1-b --project
   $GCLOUD_PROJECT_ID
 - kubectl apply -f backend-deployment.yml
-- kubectl applly -f frontend-deployment.yml
+- kubectl apply -f frontend-deployment.yml

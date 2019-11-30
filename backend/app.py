@@ -14,7 +14,7 @@ def getUser():
     """
     username = request.args.get("username", None)
     if username:
-        response = _executeRequest("{}/users/{}".format(GITHUB_API_URL, username), request.headers['token']).json()
+        response = _executeRequest("{}/users/{}".format(GITHUB_API_URL, username), request).json()
         userInfo = {
             'email': response['email'],
             'username': response['login'],
@@ -29,7 +29,7 @@ def getUser():
 def getUserRepos():
     username = request.args.get("username", None)
     if username:
-        response = _executeRequest("{}/users/{}/repos".format(GITHUB_API_URL, username),request.headers['token']).json()
+        response = _executeRequest("{}/users/{}/repos".format(GITHUB_API_URL, username),request).json()
         reposInfo = {
             'repos_list': list(map(lambda x: ({
                                     'html_url': x['html_url'],
@@ -44,14 +44,10 @@ def getUserRepos():
     else:
         abort(400, "You must provide a username.")
 
-@app.route("/api/login/")
-def login():
-    pass
-
 @app.route("/api/getuser/activity/")
 def getUserActivity():
     username = request.args.get("username", None)
-    response = _executeRequest("{}/users/{}/events/public".format(GITHUB_API_URL, username), request.headers['token']).json()
+    response = _executeRequest("{}/users/{}/events/public".format(GITHUB_API_URL, username), request).json()
     pushEvents = list(event for event in response if event['type'] == 'PushEvent')
     return (
         {            
@@ -71,7 +67,10 @@ def getUserActivity():
             } for event in pushEvents]
         }
     )
-
+@app.route("/")
+def init():
+    return True
+    
 @app.route("/api/debug/")
 def getHostInfo():
     from socket import gethostname
@@ -82,10 +81,10 @@ def getHostInfo():
     }
     return(info)
 
-def _executeRequest(url, token):
-    if token:
-        response = requests.get(url=url, headers={ 'Authorization': 'token ' + token})
-    else:
+def _executeRequest(url, request):
+    try:
+        response = requests.get(url=url, headers={ 'Authorization': 'token ' + request.headers['token']})
+    except KeyError:
         response = requests.get(url=url)
     _checkResponseStatus(response)
     return(response)
