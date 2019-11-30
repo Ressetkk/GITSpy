@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitspy-backend-deployment
+  labels:
+    app: gitspy-backend
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: gitspy-backend
+  template:
+    metadata:
+      labels:
+        app: gitspy-backend
+    spec:
+      containers:
+        - name: backend
+          image: eu.gcr.io/prywatny-260522/gitspy-backend:latest
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "100m"
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitspy-backend-service
+  labels:
+    app: gitspy-backend
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: gitspy-backend

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitspy-frontend-deployment
+  labels:
+    app: gitspy-frontend
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: gitspy-frontend
+  template:
+    metadata:
+      labels:
+        app: gitspy-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: eu.gcr.io/prywatny-260522/gitspy-frontend:latest
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "100m"
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitspy-frontend-service
+  labels:
+    app: gitspy-frontend
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: gitspy-frontend
