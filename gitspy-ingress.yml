@@ -1,0 +1,17 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Ingress"
+metadata:
+  name: "gitspy-ingress"
+  namespace: "default"
+spec:
+  backend:
+    serviceName: "gitspy-frontend-service"
+    servicePort: 80
+  rules:
+  - http:
+      paths:
+      - path: "/api/*"
+        backend:
+          serviceName: "gitspy-backend-service"
+          servicePort: 80

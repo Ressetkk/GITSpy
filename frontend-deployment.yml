@@ -5,7 +5,7 @@ metadata:
   labels:
     app: gitspy-frontend
 spec:
-  replicas: 4
+  replicas: 3
   selector:
     matchLabels:
       app: gitspy-frontend
@@ -17,15 +17,9 @@ spec:
       containers:
         - name: frontend
           image: eu.gcr.io/prywatny-260522/gitspy-frontend:latest
-          resources:
-            requests:
-              memory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "64Mi"
-              cpu: "100m"
           ports:
             - containerPort: 80
+              protocol: TCP
 ---
 apiVersion: v1
 kind: Service
@@ -36,5 +30,7 @@ metadata:
 spec:
   ports:
   - port: 80
+    targetPort: 80
   selector:
     app: gitspy-frontend
+  type: NodePort
