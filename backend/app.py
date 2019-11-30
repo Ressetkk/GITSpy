@@ -47,7 +47,7 @@ def getUserRepos():
 @app.route("/api/getuser/activity/")
 def getUserActivity():
     username = request.args.get("username", None)
-    response = _executeRequest("{}/users/{}/events/public".format(GITHUB_API_URL, username), request).json()
+    response = _executeRequest("{}/users/{}/events/public?per_page=100".format(GITHUB_API_URL, username), request).json()
     pushEvents = list(event for event in response if event['type'] == 'PushEvent')
     return (
         {            

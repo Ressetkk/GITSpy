@@ -144,3 +144,20 @@ var form = new Vue({
         }
     }
 });
+
+var footer = new Vue({
+    el: '#footer',
+    data: {
+        version: ''
+    },
+    mounted() {
+        axios.get('/api/debug')
+        .then(response => {
+            this.version = response.data.app_version
+        })
+        .catch(error => {
+            alert(error)
+        })
+        .finally(() => this.loading = false)
+    }
+})
