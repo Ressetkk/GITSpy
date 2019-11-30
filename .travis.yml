@@ -10,7 +10,7 @@ env:
   - secure: JVDdf8ycj71iwhCdJ9Q86WEyjEHZFRhYS2RwolIPClgFM6oapwJNst0a4eIiFXkdBDX3euh9m+BYSUktkmjbsLnLwO37Zx8bwn9YSMLcWfllOUABUE3dTxBkY1GtwQoJpzg6yGNPGI/nD7dPog+V8sWVQmyq2oG/34IJTB8XxXCJN13/KWI0XyA+L3YXgMYMTLIcnBsjZiEp/nPDG/0dLJbptoU/PuK4i27Pwwn0oiLmu4LRb72H2o9nD/tRiyqin9yNT3aBsR0PvmyadHdiHzPUd/n52Dt2UwpahuaXH49ZejapX4k2Kn80UNKeOpXr8qLWvg3FZQ9pMwlFgEkL9h9tjjH1ufMDsRFtFqGEZdeM35KfV1xBPQdQL9BcjDxmcZf5ByQJQQRg0noYoYQTT5EAtvsjP3vS8nAUYY+gS1zo2K5uMfn08Zv2UW2TSYqv4/1vwpDv3x+afgYwSLSANILyv/yenMgN44W+EmqtLJcBCwWTfXKydC5Gh1Q5HCXlnl8zcZwuX298sRVVQO6TIw4YaJ209i5OVjvRt95Cl6KlfDZpCIPjwyrdcNgAGk1jZRMBAWOufcXQfnbuBcoO6nAnvTUJs5eHuZXI1LDoCow0tvSqJ9jkNp+DuCw2YdhPrAfE8qznQxpiJrPlNfjqER9zWCDsxQmm9nH+zi6YBTU=
 before_install:
 - openssl aes-256-cbc -K $encrypted_dd148705a60e_key -iv $encrypted_dd148705a60e_iv
-  -in secret-gcloud.json.enc -out secret-gcloud.json -d
+  -in secret-gcloud.json.enc -out ./secret-gcloud.json -d
 - docker --version
 - export VERSION=$(cat VERSION)
 install:
